@@ -1,3 +1,5 @@
+#[derive(Copy, Clone)]
+#[warn(dead_code)]
 pub enum MediaType {
     MediaTypeNone,
     MediaTypeVideo,
@@ -16,4 +18,7 @@ pub trait BasePlugin {
 
     // get plugin media type
     fn get_media_type(&self) -> MediaType;
+
+    // validate args
+    fn validate_args(&self, args: &Vec<String>) -> Result<bool, &'static str>;
 }
