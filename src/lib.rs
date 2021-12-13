@@ -1,6 +1,6 @@
-mod kplayer;
+extern crate kplayer_rust_wrap;
 
-// #![no_std]
+use kplayer_rust_wrap::kplayer;
 
 struct ShowText {}
 
@@ -25,19 +25,23 @@ impl kplayer::plugin::BasePlugin for ShowText {
     fn get_media_type(&self) -> kplayer::plugin::MediaType {
         kplayer::plugin::MediaType::MediaTypeVideo
     }
-    fn validate_args(&self, args: &Vec<String>) -> std::result::Result<bool, &'static str> {
+    fn validate_args(&self, _args: &Vec<String>) -> std::result::Result<bool, &'static str> {
+        for str in _args {
+            let sp: Vec<&str> = str.split('=').collect();
+            if sp.len() < 2 {
+                return Err("args format error");
+            }
+
+            // validte font file exist
+            if sp[0] == "fontfile" {
+                if !kplayer::util::os::file_exist(sp[1].to_string()) {
+                    return Err("font file not exist");
+                }
+            }
+        }
+
         Ok(true)
     }
 }
 
-#[no_mangle]
-pub extern "C" fn Initialization() -> i32 {
-    kplayer::export_plugin(Box::new(ShowText {}));
-    0
-}
-
-// #[cfg(not(test))]
-// #[panic_handler]
-// fn handle_panic(_: &core::panic::PanicInfo) -> ! {
-//     unreachable!()
-// }
+kplayer_rust_wrap::export!(ShowText);
