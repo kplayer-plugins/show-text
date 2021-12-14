@@ -25,7 +25,7 @@ impl kplayer::plugin::BasePlugin for ShowText {
     fn get_media_type(&self) -> kplayer::plugin::MediaType {
         kplayer::plugin::MediaType::MediaTypeVideo
     }
-    fn validate_args(&self, _args: &Vec<String>) -> std::result::Result<bool, &'static str> {
+    fn validate_user_args(&self, _args: &Vec<String>) -> std::result::Result<bool, &'static str> {
         for str in _args {
             let sp: Vec<&str> = str.split('=').collect();
             if sp.len() < 2 {
