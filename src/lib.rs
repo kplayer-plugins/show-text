@@ -5,6 +5,9 @@ use kplayer_rust_wrap::kplayer;
 struct ShowText {}
 
 impl kplayer::plugin::BasePlugin for ShowText {
+    fn get_name(&self) -> String {
+        String::from("show-text")
+    }
     fn get_args(&self) -> std::vec::Vec<std::string::String> {
         let mut args: Vec<std::string::String> = Vec::new();
         args.push(String::from("text=none"));
@@ -29,12 +32,20 @@ impl kplayer::plugin::BasePlugin for ShowText {
         for str in _args {
             let sp: Vec<&str> = str.split('=').collect();
             if sp.len() < 2 {
+                self.print_log(
+                    kplayer::util::os::PrintLogLevel::ERROR,
+                    format!("validate args failed arg string: {}", str).as_str(),
+                );
                 return Err("args format error");
             }
 
             // validte font file exist
             if sp[0] == "fontfile" {
                 if !kplayer::util::os::file_exist(sp[1].to_string()) {
+                    self.print_log(
+                        kplayer::util::os::PrintLogLevel::ERROR,
+                        format!("font file not eixst: {}", str).as_str(),
+                    );
                     return Err("font file not exist");
                 }
             }
