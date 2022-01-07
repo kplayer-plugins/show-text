@@ -3,6 +3,11 @@ extern crate kplayer_rust_wrap;
 use kplayer_rust_wrap::kplayer;
 
 struct ShowText {}
+impl ShowText {
+    fn new() -> Self {
+        ShowText {}
+    }
+}
 
 impl kplayer::plugin::BasePlugin for ShowText {
     fn get_name(&self) -> String {
@@ -13,7 +18,7 @@ impl kplayer::plugin::BasePlugin for ShowText {
         args.push(String::from("text=none"));
         args.push(String::from("fontsize=17"));
         args.push(String::from("fontcolor=white"));
-        args.push(String::from("fontfile=font.ttf"));
+        args.push(String::from("fontfile=resource/font.ttf"));
         args.push(String::from("x=0"));
         args.push(String::from("y=0"));
 
