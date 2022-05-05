@@ -15,4 +15,4 @@ lto = true
 
 
 [dependencies]
-"kplayer-rust-wrap" = "1.4.0"
+"kplayer-rust-wrap" = "1.5.0-rc1"
